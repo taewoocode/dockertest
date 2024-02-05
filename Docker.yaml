@@ -1,0 +1,30 @@
+---
+- name: Deploy Docker service
+  hosts: localhost
+  become: yes
+
+  tasks:
+    - name: Pull Docker image
+      docker_image:
+        name: your_docker_image_name
+        source: pull
+
+    - name: Stop existing container
+      docker_container:
+        name: your_container_name
+        state: stopped
+      ignore_errors: yes
+
+    - name: Remove existing container
+      docker_container:
+        name: your_container_name
+        state: absent
+      ignore_errors: yes
+
+    - name: Run Docker container
+      docker_container:
+        name: your_container_name
+        image: your_docker_image_name
+        state: started
+        ports:
+          - "your_port_mapping"
